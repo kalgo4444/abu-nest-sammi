@@ -1,0 +1,44 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": true,
+  "instructions": ["AGENTS.md"],
+  "skills": {
+    "paths": [".agents/skills"]
+  },
+  "permission": {
+    "webfetch": "allow",
+    "websearch": "allow",
+    "edit": "allow",
+    "skill": {
+      "*": "allow"
+    },
+    "bash": {
+      "*": "allow",
+      "rm *": "deny",
+      "sudo *": "deny",
+      "git reset*": "deny",
+      "git clean*": "deny",
+      "git push*": "ask",
+      "git push --force*": "deny",
+      "git push -f*": "deny",
+      "* publish*": "ask",
+      "* deploy*": "ask"
+    }
+  },
+  "mcp": {
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "@playwright/mcp@0.0.82"],
+      "enabled": true
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true,
+      "oauth": false,
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    }
+  }
+}

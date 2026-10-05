@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --paper: #ffffff;
+  --ink: #1c1917;
+  --ink-secondary: #57534e;
+  --ink-muted: #78716c;
+  --accent: #9a3412;
+  --accent-hover: #7c2d12;
+  --accent-light: rgba(154, 52, 18, 0.08);
+  --border-subtle: rgba(28, 25, 23, 0.1);
+  --border-medium: rgba(28, 25, 23, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-hover: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-highlight: rgba(255, 255, 255, 0.9);
+  --glass-shadow: rgba(28, 25, 23, 0.08);
+  color-scheme: light;
+}
+
+html.dark,
+[data-theme="dark"] {
+  --paper: #0c0a09;
+  --ink: #f5f5f4;
+  --ink-secondary: #d6d3d1;
+  --ink-muted: #a8a29e;
+  --accent: #f97316;
+  --accent-hover: #ea580c;
+  --accent-light: rgba(249, 115, 22, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-medium: rgba(255, 255, 255, 0.2);
+  --glass-bg: rgba(24, 24, 27, 0.72);
+  --glass-bg-hover: rgba(39, 39, 42, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-highlight: rgba(255, 255, 255, 0.15);
+  --glass-shadow: rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --font-sans: ui-sans-system, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+body {
+  background:
+    radial-gradient(640px 420px at 12% -2%, rgba(154, 52, 18, 0.07), transparent 60%),
+    radial-gradient(720px 480px at 88% 6%, rgba(28, 25, 23, 0.06), transparent 62%),
+    radial-gradient(560px 520px at 50% 108%, rgba(154, 52, 18, 0.05), transparent 60%),
+    #ffffff;
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+html.dark body {
+  background:
+    radial-gradient(640px 420px at 12% -2%, rgba(249, 115, 22, 0.09), transparent 60%),
+    radial-gradient(720px 480px at 88% 6%, rgba(255, 255, 255, 0.03), transparent 62%),
+    radial-gradient(560px 520px at 50% 108%, rgba(249, 115, 22, 0.06), transparent 60%),
+    #0c0a09;
+  background-attachment: fixed;
+  color: var(--ink);
+}
+
+/* Frosted-glass approximation (taste-skill & frontend-design specification):
+   translucent fill + backdrop blur/saturate, layered light border,
+   inset top highlight for edge refraction, tinted shadow. */
+.glass-bar,
+.glass-card,
+.glass-panel,
+.glass-input {
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  background-color: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    0 1px 2px var(--glass-shadow);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.glass-bar {
+  background-color: var(--glass-bg);
+}
+
+.glass-card {
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    0 8px 24px var(--glass-shadow);
+}
+
+.glass-card:hover {
+  background-color: var(--glass-bg-hover);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    0 14px 36px var(--glass-shadow);
+}
+
+.glass-panel {
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    0 12px 32px var(--glass-shadow);
+}
+
+.glass-input {
+  background-color: var(--glass-bg);
+  color: var(--ink);
+}
+
+.glass-input:focus {
+  background-color: var(--glass-bg-hover);
+}
+
+/* Solid-fill fallback when transparency is reduced or blur is unsupported. */
+@media (prefers-reduced-transparency: reduce) {
+  .glass-bar,
+  .glass-card,
+  .glass-panel,
+  .glass-input {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: var(--paper);
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-bar,
+  .glass-card,
+  .glass-panel,
+  .glass-input {
+    background-color: var(--paper);
+  }
+}
+
+.font-serif {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.prose-blog {
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
